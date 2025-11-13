@@ -5,7 +5,7 @@ export default async function handler(req, res) {
 
   try {
     const response = await fetch(
-      "https://bryan-odom.app.n8n.cloud/webhook/youtube-idea-v2",
+      "https://bryan-odom.app.n8n.cloud/webhook/youtube-idea",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -13,10 +13,10 @@ export default async function handler(req, res) {
       }
     );
 
-    const data = await response.json().catch(() => ({}));
+    const data = await response.json();
     res.status(200).json({ message: "Forwarded to n8n", n8nResponse: data });
-  } catch (err) {
-    console.error("Error forwarding to n8n:", err);
-    res.status(500).json({ error: "Failed to reach n8n" });
+  } catch (error) {
+    console.error("Proxy error:", error);
+    res.status(500).json({ error: "Failed to forward request" });
   }
 }
